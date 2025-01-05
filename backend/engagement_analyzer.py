@@ -1,11 +1,11 @@
-from openai import OpenAI
+import openai
 from settings import settings
 import json
 
 class EngagementAnalyzer:
     def __init__(self, astra_client):
         self.astra_client = astra_client
-        self.openai_client = OpenAI(api_key=settings.OPENAI_API_KEY)
+        openai.api_key = settings.OPENAI_API_KEY
         
     def analyze_engagement(self, post_type=None):
         """Analyze engagement metrics and generate insights"""
@@ -47,8 +47,8 @@ class EngagementAnalyzer:
             Format the response as bullet points with specific percentages and metrics.
             """
             
-            response = self.openai_client.chat.completions.create(
-                model="gpt-4o",  
+            response = openai.ChatCompletion.create(
+                model="gpt-4",
                 messages=[
                     {"role": "system", "content": "You are a social media analytics expert."},
                     {"role": "user", "content": prompt}
@@ -56,7 +56,7 @@ class EngagementAnalyzer:
                 temperature=0.7
             )
             
-            return response.choices[0].message.content
+            return response.choices[0].message['content']
         except Exception as e:
             print(f"Error generating insights: {str(e)}")
             return "Error generating insights"
