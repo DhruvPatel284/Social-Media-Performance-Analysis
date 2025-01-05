@@ -1,7 +1,7 @@
 from openai import OpenAI
 from settings import settings
 import json
-from astra_client import AstraClient
+import os
 
 class EngagementAnalyzer:
     def __init__(self, engagement_data, astra_client=None):
@@ -9,13 +9,9 @@ class EngagementAnalyzer:
         try:
             # Option 1: Direct initialization
             self.astra_client = astra_client
-            self.openai_client = OpenAI(
-                api_key=settings.OPENAI_API_KEY
-            )
-            
             # Option 2: Alternative setup using environment variable
-            # os.environ["OPENAI_API_KEY"] = settings.OPENAI_API_KEY
-            # self.openai_client = OpenAI()
+            os.environ["OPENAI_API_KEY"] = settings.OPENAI_API_KEY
+            self.openai_client = OpenAI()
             
         except Exception as e:
             print(f"Error initializing OpenAI client: {str(e)}")
@@ -47,6 +43,7 @@ class EngagementAnalyzer:
     def _generate_insights(self, metrics):
         """Generate insights using GPT"""
         try:
+            print("generating insights")
             if not metrics:
                 return "No data available for analysis"
                 
