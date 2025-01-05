@@ -5,6 +5,7 @@ from engagement_analyzer import EngagementAnalyzer
 from data_generator import MockDataGenerator
 from settings import settings
 import json
+import os
 
 app = Flask(__name__)
 CORS(app)
@@ -67,4 +68,5 @@ def get_analytics():
             db_client.close()
 
 if __name__ == '__main__':
-    app.run(debug=True, port=5000)
+    port = int(os.environ.get("PORT", 5000))
+    app.run(host='0.0.0.0', port=port)
