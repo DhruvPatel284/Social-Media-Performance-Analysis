@@ -4,10 +4,22 @@ import json
 from astra_client import AstraClient
 
 class EngagementAnalyzer:
-    def __init__(self,astra_client):
-        # Initialize OpenAI client in constructor
-        self.astra_client = astra_client
-        self.openai_client = OpenAI(api_key=settings.OPENAI_API_KEY)
+    def __init__(self, engagement_data, astra_client=None):
+        # Simple initialization without any additional configuration
+        try:
+            # Option 1: Direct initialization
+            self.astra_client = astra_client
+            self.openai_client = OpenAI(
+                api_key=settings.OPENAI_API_KEY
+            )
+            
+            # Option 2: Alternative setup using environment variable
+            # os.environ["OPENAI_API_KEY"] = settings.OPENAI_API_KEY
+            # self.openai_client = OpenAI()
+            
+        except Exception as e:
+            print(f"Error initializing OpenAI client: {str(e)}")
+            raise
         
     def analyze_engagement(self, post_type=None):
         """Analyze engagement metrics and generate insights"""
