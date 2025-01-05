@@ -7,21 +7,26 @@ from dotenv import load_dotenv
 load_dotenv()
 
 class EngagementAnalyzer:
-    def __init__(self, engagement_data, astra_client=None):
-        # Simple initialization without any additional configuration
-        try:
-            # Option 1: Direct initialization
-            self.astra_client = astra_client
-            self.openai_client = OpenAI(
-                api_key=os.getenv('OPENAI_API_KEY')
-            )
-            # Option 2: Alternative setup using environment variable
-            # os.environ["OPENAI_API_KEY"] = settings.OPENAI_API_KEY
-            # self.openai_client = OpenAI()
+    def __init__(self,astra_client=None):
+        """Initialize with only the essential components"""
+        self.astra_client = astra_client
+        
+        # Set API key in environment
+        api_key = os.getenv('OPENAI_API_KEY')
+        if not api_key:
+            raise ValueError("OPENAI_API_KEY not found in environment variables")
             
+        # Create client with minimal configuration
+        try:
+            self.openai_client = OpenAI()  # Let it use the environment variable
         except Exception as e:
-            print(f"Error initializing OpenAI client: {str(e)}")
-            raise
+            print(f"Initial OpenAI client creation failed: {str(e)}")
+            try:
+                # Fallback to direct initialization
+                self.openai_client = OpenAI(api_key=api_key)
+            except Exception as e2:
+                print(f"Fallback OpenAI client creation also failed: {str(e2)}")
+                raise
         
     def analyze_engagement(self, post_type=None):
         """Analyze engagement metrics and generate insights"""
