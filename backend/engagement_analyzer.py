@@ -7,26 +7,18 @@ from dotenv import load_dotenv
 load_dotenv()
 
 class EngagementAnalyzer:
-    def __init__(self,astra_client=None):
-        """Initialize with only the essential components"""
-        self.astra_client = astra_client
+    def __init__(self):
+        # Clear any potential proxy settings in environment
+        proxy_vars = ['HTTP_PROXY', 'HTTPS_PROXY', 'http_proxy', 'https_proxy']
+        for var in proxy_vars:
+            if var in os.environ:
+                del os.environ[var]
+                
+        # Ensure API key is in environment
+        os.environ["OPENAI_API_KEY"] = settings.OPENAI_API_KEY
         
-        # Set API key in environment
-        api_key = os.getenv('OPENAI_API_KEY')
-        if not api_key:
-            raise ValueError("OPENAI_API_KEY not found in environment variables")
-            
-        # Create client with minimal configuration
-        try:
-            self.openai_client = OpenAI()  # Let it use the environment variable
-        except Exception as e:
-            print(f"Initial OpenAI client creation failed: {str(e)}")
-            try:
-                # Fallback to direct initialization
-                self.openai_client = OpenAI(api_key=api_key)
-            except Exception as e2:
-                print(f"Fallback OpenAI client creation also failed: {str(e2)}")
-                raise
+        # Create client without any config
+        self.openai_client = OpenAI()
         
     def analyze_engagement(self, post_type=None):
         """Analyze engagement metrics and generate insights"""
@@ -71,7 +63,7 @@ class EngagementAnalyzer:
             """
             
             response = self.openai_client.chat.completions.create(
-                model="gpt-4",  # Fixed model name from "gpt-4o" to "gpt-4"
+                model="gpt-4o",  # Fixed model name from "gpt-4o" to "gpt-4"
                 messages=[
                     {
                         "role": "user",
