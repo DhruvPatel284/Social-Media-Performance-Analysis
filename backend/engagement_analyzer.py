@@ -7,7 +7,8 @@ from dotenv import load_dotenv
 load_dotenv()
 
 class EngagementAnalyzer:
-    def __init__(self):
+    def __init__(self,astra_client=None):
+        self.astra_client = astra_client
         # Clear any potential proxy settings in environment
         proxy_vars = ['HTTP_PROXY', 'HTTPS_PROXY', 'http_proxy', 'https_proxy']
         for var in proxy_vars:
