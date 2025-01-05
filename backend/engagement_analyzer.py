@@ -1,6 +1,7 @@
 from openai import OpenAI
 from settings import settings
 import json
+from astra_client import AstraClient
 
 class EngagementAnalyzer:
     def __init__(self, astra_client):
@@ -11,7 +12,10 @@ class EngagementAnalyzer:
         """Analyze engagement metrics and generate insights"""
         try:
             # Get metrics from database
-            metrics = self.astra_client.get_engagement_metrics(post_type)
+            cli = AstraClient()
+            cli.connect(create_table=False)
+            
+            metrics = cli.get_engagement_metrics(post_type)
             print("Debug - Raw metrics from DB:", metrics)  # Debug print
             
             if not metrics:
@@ -48,7 +52,7 @@ class EngagementAnalyzer:
             """
             
             response = self.openai_client.chat.completions.create(
-                model="gpt-4",  # Fixed model name from "gpt-4o" to "gpt-4"
+                model="gpt-4o",  
                 messages=[{"role": "user", "content": prompt}]
             )
             
