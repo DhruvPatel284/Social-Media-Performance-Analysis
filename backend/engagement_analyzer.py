@@ -4,8 +4,7 @@ import json
 from astra_client import AstraClient
 
 class EngagementAnalyzer:
-    def __init__(self, astra_client):
-        self.astra_client = astra_client
+    def __init__(self):
         self.openai_client = OpenAI(api_key=settings.OPENAI_API_KEY)
         
     def analyze_engagement(self, post_type=None):
