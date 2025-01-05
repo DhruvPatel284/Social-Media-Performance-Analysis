@@ -19,7 +19,7 @@ class EngagementAnalyzer:
         os.environ["OPENAI_API_KEY"] = settings.OPENAI_API_KEY
         
         # Create client without any config
-        self.openai_client = OpenAI()
+        self.openai_client = OpenAI(api_key=settings.OPENAI_API_KEY)
         
     def analyze_engagement(self, post_type=None):
         """Analyze engagement metrics and generate insights"""
