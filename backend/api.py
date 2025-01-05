@@ -40,7 +40,7 @@ def get_analytics():
         db_client.connect(create_table=False)  # Don't recreate table
         
         # Get analytics
-        analyzer = EngagementAnalyzer()
+        analyzer = EngagementAnalyzer(db_client)
         analysis = analyzer.analyze_engagement()
         
         # Debug prints
