@@ -48,12 +48,8 @@ class EngagementAnalyzer:
             """
             
             response = self.openai_client.chat.completions.create(
-                model="gpt-4",  
-                messages=[
-                    {"role": "system", "content": "You are a social media analytics expert."},
-                    {"role": "user", "content": prompt}
-                ],
-                temperature=0.7
+                model="gpt-4",  # Fixed model name from "gpt-4o" to "gpt-4"
+                messages=[{"role": "user", "content": prompt}]
             )
             
             return response.choices[0].message.content
