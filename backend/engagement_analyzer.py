@@ -4,8 +4,8 @@ import json
 from astra_client import AstraClient
 
 class EngagementAnalyzer:
-    def __init__(self):
-        self.openai_client = OpenAI(api_key=settings.OPENAI_API_KEY)
+    # def __init__(self):
+    #     self.openai_client = OpenAI(api_key=settings.OPENAI_API_KEY)
         
     def analyze_engagement(self, post_type=None):
         """Analyze engagement metrics and generate insights"""
@@ -50,8 +50,8 @@ class EngagementAnalyzer:
             
             Format the response as bullet points with specific percentages and metrics.
             """
-            
-            response = self.openai_client.chat.completions.create(
+            openai_client = OpenAI(api_key=settings.OPENAI_API_KEY)
+            response = openai_client.chat.completions.create(
                 model="gpt-4o",  
                 messages=[{"role": "user", "content": prompt}]
             )
