@@ -27,7 +27,7 @@ class AstraClient:
             # Set the keyspace
             self.session.set_keyspace(settings.KEYSPACE_NAME)
             print(f"Set keyspace to: {settings.KEYSPACE_NAME}")
-            
+            print("now going in analayzer")
             if create_table:
                 # Drop existing table if it exists
                 self.session.execute(f"DROP TABLE IF EXISTS {settings.TABLE_NAME}")
@@ -36,7 +36,7 @@ class AstraClient:
                 # Create table with updated schema
                 self._create_table()
                 print("Table created successfully")
-            
+            else : print("not require to create table")
         except Exception as e:
             print(f"Detailed connection error: {str(e)}")
             raise Exception(f"Database connection error: {str(e)}")

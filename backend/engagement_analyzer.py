@@ -10,6 +10,7 @@ class EngagementAnalyzer:
     def analyze_engagement(self, post_type=None):
         """Analyze engagement metrics and generate insights"""
         try:
+            print("enter in analyze_engagement")
             # Get metrics from database
             cli = AstraClient()
             cli.connect(create_table=False)
